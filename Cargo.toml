@@ -1,0 +1,5 @@
+[package]
+name = "psilly-server"
+version = "0.0.1"
+authors = ["Dylan <dylan@psilly.com>"]
+
