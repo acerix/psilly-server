@@ -1,0 +1,45 @@
+# Psilly Server Configuration
+
+[server]
+
+# A unique name for your server
+name = "My Psilly Server"
+
+# A strong password to protect your server name
+password = "PutASecurePasswordHere!"
+
+# If specified, this password is required to play on the server
+#play_password = "l33t"
+
+# If specified, this password is required to spectate
+#spectate_password = ""
+
+# Hostname of this server, IP is used if this is not set
+#hostname = "psillyd.mydomain.com"
+
+# UDP port to listen on
+port = 42002
+
+# Name of the game mode
+game_mode = "Normal"
+
+# Maximum players
+max_players = 1024
+
+# Maximum spectators
+max_spectators = 1024
+
+# Country code
+country = "CAN"
+
+# UTM coordinates (latitude, longitude)
+utm = [
+    45.42,
+    -75.69
+]
+
+# Decicated Server?
+dedicated = true
+
+# Enable Anti-Cheat?
+anti-cheat = true

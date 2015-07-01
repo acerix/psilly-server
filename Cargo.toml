@@ -1,5 +1,8 @@
 [package]
-name = "psilly-server"
+name = "psillyd"
 version = "0.0.1"
 authors = ["Dylan <dylan@psilly.com>"]
 
+[dependencies]
+rustc-serialize = "0.3"
+toml = "0.1"
