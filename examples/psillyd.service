@@ -6,7 +6,8 @@ After=network.target
 User=psillyd
 Group=psillyd
 
-Type=forking
+Type=simple
+#Type=forking
 ExecStart=/usr/bin/psillyd /etc/psillyd.toml
 
 Restart=always
@@ -14,4 +15,3 @@ PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
-

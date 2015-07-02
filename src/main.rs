@@ -29,6 +29,10 @@ extern crate sha1;
 
 fn main() {
 
+    let game_name = "Psilly";
+    let game_version = "0.0.1";
+
+    println!("Starting {} Server v.{}...\n", game_name, game_version);
 
     // config file test
 
@@ -70,10 +74,7 @@ fn main() {
 
     // http test
 
-    env_logger::init().unwrap();
-
-    let game_name = "Psilly";
-    let game_version = "0.0.1";
+    //env_logger::init().unwrap();
 
     let url = "http://gsl.pow7.com/announce/".to_string();
 
