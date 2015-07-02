@@ -1,0 +1,17 @@
+[Unit]
+Description=Psilly Server
+After=network.target
+
+[Service]
+User=psillyd
+Group=psillyd
+
+Type=forking
+ExecStart=/usr/bin/psillyd /etc/psillyd.toml
+
+Restart=always
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
