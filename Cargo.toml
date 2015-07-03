@@ -12,3 +12,6 @@ env_logger = "0.3"
 hyper = "0.6"
 
 sha1 = "0.1"
+
+[dependencies.msgpack]
+git = "https://github.com/mneumann/rust-msgpack.git"

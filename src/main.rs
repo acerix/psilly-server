@@ -21,11 +21,11 @@ use hyper::header::Connection;
 
 use std::net::{Ipv4Addr, UdpSocket};
 
-use std::thread::sleep_ms;
-
 //use rustc_serialize::hex::FromHex;
 
 extern crate sha1;
+
+extern crate msgpack;
 
 fn main() {
 
@@ -66,6 +66,7 @@ fn main() {
             return
         }
     };
+
     let json = convert(Value::Table(toml));
     println!("{}", json.pretty());
 
@@ -86,29 +87,29 @@ fn main() {
     //println!("Name:\n{}", server_name );
 
     let game_mode = "Normal";
+    let server_port = 42002;
     let server_name = "SERVERNAME";
     let server_password = "PASSWORD";
-    let server_port = 42002;
-    let max_players = "69";
+    let max_players = 512;
 
     let url = url + "&game_mode=" + game_mode;
     let url = url + "&port=" + &server_port.to_string();
     let url = url + "&name=" + server_name;
     let url = url + "&password=" + server_password;
-    let url = url + "&max_players=" + max_players;
+    let url = url + "&max_players=" + &max_players.to_string();
 
+    println!("Request URL:\n{}", url);
 
     let client = Client::new();
 
-    let mut res = client.get(&*url)
+    let mut announce_result = client.get(&*url)
         .header(Connection::close())
         .send().unwrap();
 
-    //println!("Response: {}", res.status);
-    //println!("Headers:\n{}", res.headers);
+    println!("Response: {}", announce_result.status);
+    //println!("Headers:\n{}", announce_result.headers);
 
-    io::copy(&mut res, &mut io::stdout()).unwrap();
-
+    io::copy(&mut announce_result, &mut io::stdout()).unwrap();
 
 
     // udp ping/pong test
@@ -137,7 +138,7 @@ fn main() {
     //m.update(session);
     //let sha1_hash = m.digest();
 
-    println!("sha1_hash: {}", m.hexdigest());
+    println!("\nsha1_hash: {}", m.hexdigest());
 
     //let player_count = 42;
 
@@ -154,29 +155,41 @@ fn main() {
     // send pong
     udp_socket.send_to(pong_data.as_bytes(), (pong_ip, pong_port)).unwrap();
 
-    //let mut buf = [0; 10];
-    //let (amt, src) = udp_socket.recv_from(&mut buf);
+
+
 
     // Send a reply to the socket we received data from
     //let buf = &mut buf[..amt];
     //buf.reverse();
+    //try!(udp_socket.send_to(buf, &src));
 
-    //udp_socket.send_to(buf, &src);
+    //drop(udp_socket); // close the socket
 
-    drop(udp_socket);
 
-    println!("\nPONG\n");
 
+    //let demo_msgpack = msgpack::Encoder::to_msgpack(&as_bytes).ok().unwrap();
+
+    //println!("Encoded: {}", wtf.to_string());
 
     // processing incoming udp packets
 
+    let mut buf = [0; 48];
+
+    println!("Waiting for UDP packets...");
+
     loop {
 
-        //println!("\nThis is where something will happen\n");
+        let result = udp_socket.recv_from(&mut buf);
+        println!("Got: {:?}", result);
+        //println!("buf.len(): {:?}", buf.len());
 
-        sleep_ms(1024);
+        //let pong_data = "pong1234512345123451234512345123".to_string();  // pong + server_log_id(4) + sha1(20) + player_count(2)
+
+        udp_socket.send_to(pong_data.as_bytes(), (pong_ip, pong_port)).unwrap();
 
     }
+
+    //drop(udp_socket);
 
 }
 
